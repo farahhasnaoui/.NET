@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\AM.ApplicationCore",
+    "\\AM.ApplicationCore\\Domain",
+    "\\AM.ApplicationCore\\Interfaces",
+    "\\AM.ApplicationCore\\obj"
+  ],
+  "SelectedNode": "\\AM.ApplicationCore\\InMemorySource.cs",
+  "PreviewInSolutionExplorer": false
+}
