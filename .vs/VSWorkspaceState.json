@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\AirportManagement",
+    "\\AirportManagement\\AM.UI.Web",
+    "\\AirportManagement\\AM.UI.Web\\Controllers",
+    "\\AirportManagement\\AM.UI.Web\\Views",
+    "\\AirportManagement\\AM.UI.Web\\Views\\Flight"
+  ],
+  "SelectedNode": "\\AirportManagement\\AM.UI.Web\\Views\\Flight\\Index.cshtml",
+  "PreviewInSolutionExplorer": false
+}
