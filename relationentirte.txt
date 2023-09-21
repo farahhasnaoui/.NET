@@ -1,0 +1,21 @@
+relation Many to many 
+  public virtual IList<Election> Elections { get; set; }
+  public virtual IList<Electeur> Electeurs { get; set; }
+fil les deux classe
+////////////////////////////////////////////////////////////////
+relation one to Many 
+ public virtual Election Election { get; set; } teb3a one
+w many
+
+  public virtual IList<Electeur> Electeurs { get; set; }
+
+///////////////////////////////
+Many to many w binethom classe twali one to many m3a classe heki
+    public virtual IList<Vote> Votes { get; set; }
+fil les deux
+
+w ba3d fil classe vote li benthom n3ayet lil lo5rin bil one
+    public string VoitureId { get; set; }
+        public virtual Voiture Voiture { get; set; }
+        public string ClientId { get; set; }
+        public virtual Client Client { get; set; }

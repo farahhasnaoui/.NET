@@ -1,0 +1,100 @@
+
+
+
+Les annotations : 
+*Mettre l’annotation de clé primaire :
+[Key]
+
+*obligatoire:
+[Required]
+
+*obligatoires avec message d’erreur:
+[Required(ErrorMessage ="Champs obligatoire")]
+
+*de type Date valide:
+[DataType(DataType.Date)]
+[DataType(DataType.DateTime)]
+
+*de type Monnaie:
+[DataType(DataType.Currency)]
+
+*entier positif qui ne dépasse pas la valeur 24:
+[Range(0,24)]
+
+*doit appartenir à l’intervalle [1,4]:
+[Range(1,4)]
+
+*Définir le type détenu Zone qui regroupe les propriétés Ville et Pays:
+examen agence de voyage :classe Zone.cs
+examen clinique
+examen Vaccin
+
+*Password :la valeur saisie par l’utilisateur doit être cachée :
+[DataType(DataType.Password)]
+
+*doit être de type Multiligne :
+[DataType(DataType.MultilineText)]
+
+*une chaîne de caractères de taille comprise entre 3 et 10 caractères:
+[MinLength(3),MaxLength(10)]
+
+*une chaîne de caractères de taille 10 caractères avec un msg d'erreur:
+[StringLength(10, ErrorMessage = "Must be less than 10 characters")]
+
+*Telephone :la valeur saisie par l’utilisateur doit être valide et de 8 numero :
+[RegularExpression(@"^(\d{8})$")]
+[RegularExpression(@"^([0-9]{8})$")]
+
+*Configurer la propriété Email qui s'affiche avec la libellé Adresse Mail :
+[DataType(DataType.EmailAddress)]  ou
+[Display(Name = "Adresse Mail")]
+
+*la forme d’un email valide
+[DataType(DataType.EmailAddress)]
+
+*doit être un nombre positif
+[Range(0, int.MaxValue)]
+
+*La clé étrangère correspondante à l’entité Plane :
+[ForeignKey("Plane")]
+
+
+* doit etre date valide
+[DataType(DataType.Date)]
+
+
+
+
+
+
+
+
+
+
+
+
+Partie Web:
+
+
+
+************* matensech constructeur fi controller **************
+         ********************************************
+************* matensech program.cs **************
+         ********************************************
+
+
+
+*Vue Create / Vue Index / bouton Recherche / ajouter un lien à la vue Index qui 
+dirige vers une vue Detail / Vue Details : Examen agence de voyage
+
+
+
+
+
+    [Compare("Password")]
+comaparer confirm password bil password
+
+
+
+
+

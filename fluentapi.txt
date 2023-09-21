@@ -1,0 +1,68 @@
+cle composé de trois cchamps 
+nzidou fil context . cs
+  modelBuilder.Entity<Vote>().HasKey(e => new { e.DateElection, e.PartiePolitiqueId, e.VoteId });
+
+
+///////////////////////////////////
+
+
+
+
+Créer une classe de configuration afin de configurer la classe Course comme
+porteuse de données entre Voiture et Client avec une clé primaire composée
+par trois propriétés VoitureId, ClientId et DateCourse.
+
+
+course heya classe binet voiture w l client w homa binethom manytomany
+/////////////classe de cofiguration///////////////
+public void Configure(EntityTypeBuilder<Course> builder)
+        {
+            builder.HasOne(e => e.Voiture).WithMany(e => e.Courses).HasForeignKey(e => e.VoitureId);
+            builder.HasOne(e => e.Client).WithMany(e => e.Courses).HasForeignKey(e => e.ClientId);
+            builder.HasKey(e => new { e.VoitureId, e.ClientId, e.DateCourse });
+        }
+
+
+
+////////////////////////// 
+string fil base de donnes mayfotouch 150
+fil context.cs 
+   protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<string>().HaveMaxLength(15);
+            base.ConfigureConventions(configurationBuilder);
+        }
+
+
+
+///////////////////////
+
+
+
+table association fil configuration
+
+
+Créer une classe de configuration pour configurer la relation many-to-many entre les
+classes « Election » et « Electeur » en spécifiant « ParticipationElection » comme nom de
+la table d’association.
+ public void Configure(EntityTypeBuilder<Election> builder)
+        {
+            //Many to Many
+            builder.HasMany(e => e.Electeurs)
+            .WithMany(e => e.Elections)
+            .UsingEntity(
+                c => c.ToTable("ParticipationElection"));//Table d'association
+
+        }
+
+
+
+///////////////
+des propriétes bech nlemhom fi classe   w ba3d n3aytelhom bil classe heki
+ protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Vote>().HasKey(e => new { e.DateElection, e.PartiePolitiqueId, e.VoteId });
+       
+            modelBuilder.Entity<Vote>().OwnsOne(e => e.MonBureauVote);
+            base.OnModelCreating(modelBuilder);
+        }

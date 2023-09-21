@@ -1,0 +1,26 @@
+Configurer la relation 1..* entre Client et Conseiller en précisant ConseillerFK
+comme clé étrangère et en activant la Cascade On Delete. (1pt)
+
+
+
+
+nzidou 
+filclasse
+
+
+    public int ConseillerFK { get; set; }
+        public virtual Conseiller Conseiller { get; set; }
+
+
+
+fil configurationn
+
+
+public void Configure(EntityTypeBuilder<Client> builder)
+        {
+            builder.HasOne(c => c.Conseiller)
+                .WithMany(l => l.Clients)
+                .HasForeignKey(c => c.ConseillerFK)
+                .OnDelete(DeleteBehavior.Cascade);
+
+        }

@@ -1,0 +1,151 @@
+relation many to many
+      public virtual IList<Election> Elections { get;set; }
+fi chertin na3mlouha 
+manyto many avec hyporteuse
+
+
+fil election many nhotoha haka
+    public virtual IList<Vote> Votes { get; set; }
+w fil vote one 
+       public virtual Election Election { get; set; }
+
+
+/////////////////////////////////////
+
+le contorole desaisie tout le chaine  de caractére cote base de donne 250
+
+fil context.cs
+
+ protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+
+        {
+            configurationBuilder.Properties<string>().HaveMaxLength(250);
+
+            base.ConfigureConventions(configurationBuilder);
+        
+}
+
+
+
+////////////////////////////////////////
+
+
+cle primaire fih 3 champ
+fil context .cs
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Vote>().HasKey(e => new { e.DateElection, e.PartiePolitiqueId, e.VoteId });
+            base.OnModelCreating(modelBuilder);
+        }
+
+
+
+
+ajouter une table d'assosiation entre de table many to many
+nemchiw lil configuration
+namespace Infrastructure.Configurations
+{
+    public  class ElectionConfiguration : IEntityTypeConfiguration<Election>
+    {
+        public void Configure(EntityTypeBuilder<Election> builder)
+        {
+            //Many to Many
+            builder.HasMany(e=> e.Electeurs)
+            .WithMany(v  => v.Elections)
+            .UsingEntity(
+                j => j.ToTable("ParticipationElection"));//Table d'association
+
+        }
+    }
+}
+
+ba3d nzid hethi 
+            modelBuilder.ApplyConfiguration(new ElectionConfiguration) fi context.cs 
+on modelCreating
+
+
+
+
+bech na3mel migration de base
+nemchi lil infrastructure
+Add-Migration Init
+
+
+generer la base na3mlou update database 
+Update-Database
+
+attribut nhebouh fi chakl classe nasna3 classe 
+w ba3d nzidou hetha fil  fichier context.cs
+methode on modelcreating           
+
+  modelBuilder.Entity<Electeur>().OwnsOne(e => e.MonBureauVote);
+            modelBuilder.Entity<Vote>().OwnsOne(e => e.MonBureauVote);
+
+////////////////////////
+
+calculer nombre de electeurs avec une date passer en parametre 
+hethi fil I interface 
+ int GetElecteursCount(DateTime DateElection)
+        whethi fil service
+        public int GetElecteursCount(DateTime DateElection)
+        {
+           return GetById(DateElection).Electeurs.Count; 
+           // return GetMany(e =>e.DateElection == DateElection).Single().Electeurs.Count; traja3lek barcha heka 3lech nhot single w tji hata 3la cle mouch primaire
+
+
+            //return Get(e => e.DateElection == DateElection).Electeurs.Count; 
+        }
+
+/////////////// 3andi autre  methode  calculer pourcentage leselecteurs jeunes 3marhom entre 18,35   b dateelection datetime.now
+     public float GetElecteurjeunesPercentage(DateTime DateElection)
+        {
+         var electeursJeunesCount =GetById(DateElection).Electeurs.Where(e => {
+            var age = (DateTime.Now - e.DateNaissance).TotalDays / 365;
+           return age >= 18 && age <= 35;
+        }).Count();
+            return (float)electeursJeunesCount/GetElecteursCount(DateElection)*100;
+        }
+
+/////////////////////////////////
+
+
+
+bech nraja3 partie poliique li 3andha akther vote selon une dateelection
+ public PartiePolitique GetPartiePolitiqueElu(DateTime DateElection)
+        {
+           var partiePolitiqueEluId = GetMany(e => e.DateElection == DateElection).GroupBy(e => e.PartiePolitiqueId).OrderByDescending(e =>e.Count()).First().Key;
+         return UnitOfWork.Repository<PartiePolitique>().GetById(partiePolitiqueEluId);
+        }
+
+///////////becjh na3mel create nemchi lil model nenzel 3lih na3mel  create controller ba3d nzid service kima hak
+
+IUnitOfWork UnitOfWorkservice;
+        IService<Electeur> electeurService;
+        public ElecteurController(IUnitOfWork UnitOfWorkservice, IService<Electeur> electeurService)
+        {
+            this.UnitOfWorkservice = UnitOfWorkservice;
+            this.electeurService = electeurService;
+
+        } comme ca yesta3mel fil iservice 5ater mouch 3amel creation mta3service 
+
+
+
+si nonn nemchi nzid service b transit fil program.cs
+
+builder.Services.AddTransient<IElectionService, ElectionService>();
+builder.Services.AddTransient<IVoteService, VoteService>();
+
+
+ IUnitOfWork UnitOfWorkservice;
+         IFlightService  flightService;
+        public FlightController(IUnitOfWork UnitOfWorkservice, IFlightService flightService)
+        {
+            this.UnitOfWorkservice = UnitOfWorkservice;
+            this.flightService = flightService;
+
+        }
+
+//////////
+
+kifech nbadel controlleur fi programme . cs
+    pattern: "{controller=Electeur}/{action=Index}/{id?}");

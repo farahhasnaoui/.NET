@@ -1,0 +1,14 @@
+ public int ClientFK { get; set; }
+
+        // [ForeignKey("Pack")]
+        public int PackFK { get; set; }
+
+        [ForeignKey("ClientFK")]
+        public virtual Client Client { get; set; }
+        [ForeignKey("PackFK")]
+        public virtual Pack Pack { get; set; }
+
+
+
+fil classe associative li benethom
+
